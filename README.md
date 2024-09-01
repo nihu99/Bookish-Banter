@@ -19,7 +19,18 @@ Bookish Banter is a web application for book enthusiasts to manage their collect
 
 ### Installation
 
+```
 python -m venv env
-source env/bin/activate  # On Windows, use `env\Scripts\activate`
+```
+
+```
+env\Scripts\activate
+```
+
+```
 pip install -r requirements.txt
+```
+
+```
 python manage.py runserver
+```
