@@ -1,0 +1,261 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% load cart %}
+
+<link rel="stylesheet" href="{% static 'css/ecom.css' %}" />
+
+<div class="">
+  {% if empty_msg %}
+  <div class="empty_msg mt-5 pt-5" style="margin-bottom: 40vh;">
+    <h2 class="text-center" class="">{{ empty_msg }}</h2>
+  </div>
+  {% else %}
+  <div class="">
+    <h2 class="marginFix" style="margin: 100px 50px 0px 50px">Your Items:</h2>
+  </div>
+
+  <table
+    class="border tableSubFlex m-4 mt-5 p-5"
+    style="width: 65%"
+    cellpadding="2"
+  >
+    <tbody>
+      <tr class="headText">
+        <td><b class="fontSizeInc">S.No.</b></td>
+        <td><b class="fontSizeInc">Title</b></td>
+        <td><b class="fontSizeInc">Image</b></td>
+        <td><b class="fontSizeInc">Quantity</b></td>
+        <td><b class="fontSizeInc">Price</b></td>
+        <td><b class="fontSizeInc">Total</b></td>
+        <td><b class="fontSizeInc">Remove</b></td>
+      </tr>
+      {% for i in Cart %}
+      <tr class="cartProducts">
+        <td>{{ forloop.counter }}</td>
+        <td>
+          <a href="{% url 'product' i.id %}" class="productTitleCart"
+            >{{ i.productTitle }}</a
+          >
+        </td>
+        <td>
+          <img class="cartImgProduct" src="{{ i.productDisp.url }}" alt="" />
+        </td>
+        <td>{{ i|cart_quantity:request.session.cart }}</td>
+        <td>${{ i.productPrice }}</td>
+        <td>${{ i|totalPrice:request.session.cart }}</td>
+        <td>
+          <form action="/remove-from-cart" class="" method="POST">
+            {% csrf_token %}
+            <input hidden type="text" name="{{ i.id }}" value="{{ i.id }}" />
+            <input
+              type="submit"
+              value="&#10060;"
+              class="quantityBtn"
+              readonly
+            />
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <td><hr style="width: 65%; float: right" /></td>
+      <td><hr /></td>
+      <td><hr /></td>
+      <td><hr /></td>
+      <td><hr /></td>
+      <td><hr /></td>
+      <td class="">
+        <button
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+          style="text-transform: uppercase; width: 160px"
+          class="addToCart"
+        >
+          Check Out
+        </button>
+      </td>
+    </tfoot>
+    <tfoot class="totalCart headText">
+      <th></th>
+      <th></th>
+      <th colspan=""><b>Total:</b></th>
+      <th colspan="2"></th>
+      <th><b>${{ Cart|totalPriceCart:request.session.cart }}</b></th>
+      <th></th>
+    </tfoot>
+  </table>
+
+  <div
+    class="modal fade"
+    id="exampleModalCenter"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Checkout</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% if user.is_authenticated %}
+          <form
+            action="{% url 'loginCheckout' %}"
+            id="myFormSubmit"
+            method="post"
+          >
+            {% if not user.is_authenticated %}
+            <h4 class="text-center mb-2">You need to login first</h4>
+            {% endif %} {% csrf_token %}
+            <div class="form-group">
+              <label for="readAndReturn">Read and Return?</label>
+              <input
+                type="checkbox"
+                name="readAndReturn"
+                id="readAndReturn"
+                class="form-check-label"
+                placeholder=""
+                aria-describedby="helpId"
+              />
+              <div>(Extra charges may apply!)</div>
+
+              <div id="calendarContainer" style="display: none">
+                <div>Security Deposit: $15 for Rental Services</div>
+                <label for="returnDate">Please add a Return Date</label>
+                <input
+                  type="date"
+                  id="returnDate"
+                  class="form-control"
+                  name="returnDate"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="">Address</label>
+              <input
+                type="text"
+                name="address"
+                id=""
+                class="form-control"
+                placeholder=""
+                aria-describedby="helpId"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                id=""
+                class="form-control"
+                placeholder=""
+                aria-describedby="helpId"
+                required
+              />
+            </div>
+            <div class="">
+              <div
+                style="width: 100% !important"
+                id="paypal-button-container"
+              ></div>
+
+              <!-- Include the PayPal JavaScript SDK -->
+              <script src="https://www.paypal.com/sdk/js?client-id=AcK29cNvZ7dD5zShYcvy0DIbSABOYNdRJK7AR8hGnk0bgLnmqNEvfGPu_b8Ri83WaQmsXPe61YvtP51d&currency=USD"></script>
+
+              <script>
+                // Render the PayPal button into #paypal-button-container
+                paypal
+                  .Buttons({
+                    // Set up the transaction
+                    createOrder: function (data, actions) {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value:
+                                "{{ Cart|totalPriceCart:request.session.cart }}",
+                            },
+                          },
+                        ],
+                      });
+                    },
+                    // Finalize the transaction
+                    onApprove: function (data, actions) {
+                      return actions.order.capture().then(function (details) {
+                        // Show a success message to the buyer
+                        alert(
+                          "Transaction completed by " +
+                            details.payer.name.given_name +
+                            "!" +
+                            "\n" +
+                            "Thank you for ordering!"
+                        );
+                        localStorage.removeItem("__paypal_storage__");
+                        document.getElementById("myFormSubmit").submit();
+                      });
+                    },
+                  })
+                  .render("#paypal-button-container");
+              </script>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  localStorage.clear();
+                  var readAndReturnCheckbox =
+                    document.getElementById("readAndReturn");
+                  var calendarContainer =
+                    document.getElementById("calendarContainer");
+
+                  readAndReturnCheckbox.addEventListener("change", function () {
+                    if (this.checked) {
+                      calendarContainer.style.display = "block";
+                      var deliveryDate = new Date();
+                      deliveryDate.setDate(deliveryDate.getDate() + 5);
+                      var minReturnDateString = deliveryDate
+                        .toISOString()
+                        .split("T")[0];
+                      let returnDate = document.getElementById("returnDate");
+                      returnDate.setAttribute("min", minReturnDateString);
+                    } else {
+                      calendarContainer.style.display = "none";
+                    }
+                  });
+                });
+              </script>
+            </div>
+          </form>
+          {% else %}
+          <div class="text-center">Please signin/signup to checkout!</div>
+          <br />
+          <div class="checkoutBtnFix">
+            <a
+              href="{% url 'Signin' %}"
+              class="btn btn-primary"
+              class="text-center"
+              >Signin</a
+            >
+            <a
+              href="{% url 'Signup' %}"
+              class="btn btn-primary"
+              class="text-center"
+              >Signup</a
+            >
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

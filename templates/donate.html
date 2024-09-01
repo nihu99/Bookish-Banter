@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+<html class="wide wow-animation" lang="en">
+  <head>
+    <title>Donate</title>
+
+    <style>.ie-panel{
+      display: none;
+      background: #212121;
+      padding: 10px 0;
+      box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);
+      clear: both;
+      text-align:center;
+      position: relative;
+      z-index: 1;
+      } 
+      html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {
+        display: block;
+        }</style>
+  </head>
+  <body>
+    <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+   
+      <section class="parallax-container" data-parallax-img="https://images.pexels.com/photos/3943714/pexels-photo-3943714.jpeg?auto=compress&cs=tinysrgb&w=600">
+<html class="wide wow-animation" lang="en">
+    <title>Donate</title>
+  <body>
+    <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/double.jpg" height="42" width="520" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <div class="page">
+      <section class="parallax-container" data-parallax-img="images/parallax-img-4.jpg">
+        <div class="parallax-content breadcrumbs-custom context-dark overlay-4">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-lg-9">
+                <h2 class="breadcrumbs-custom-title">Support our noble cause</h2>
+                <ul class="breadcrumbs-custom-path">
+                  <li><a href="/">Home</a></li>
+                  <li class="active">Donate</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-custom-2 bg-default">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="heading-3-custom">Our Mission:</h3>
+              <p class="big-1">At Bookish Banter, our purpose is to provide access to the transformative power of books for underprivileged individuals who have a passion for reading. We believe that everyone deserves the opportunity to explore the world through literature, regardless of their circumstances. By offering a diverse collection of books and resources, we strive to empower minds, foster a love for learning, and bridge the gap in access to reading materials. Your support enables us to make a positive difference in the lives of those who cherish the written word. 
+                Join us in our mission to bring the joy of reading to every reader, no matter their background or means.</p>
+              <!-- <div class="group-xs group-middle toggle-buttons-js">
+                <div class="button button-lg-custom-2 button-gray-outline active">$10</div>
+                <div class="button button-lg-custom-2 button-gray-outline">$20</div>
+                <div class="button button-lg-custom-2 button-gray-outline">$50</div>
+                <div class="button button-lg-custom-2 button-gray-outline">$100</div>
+                <form class="rd-form form-number-range" method="post">
+                  <div class="form-wrap"> -->
+                   
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-custom-3 bg-gray-1">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h3 style="color: #D4A373;" class="text-center">Your contribution matters!</h3>
+              <form class="rd-form" id="myFormSubmit" data-form-output="form-output-global" data-form-type="contact" method="POST" action="{% url 'donate' %}">
+                {% csrf_token %}
+                
+                <div class="row row-14 row-narrow">
+                  <div class="">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-amount" type="number" name="amount" min = "5" default="5" data-constraints="@Required">
+                      <label class="form-label" for="contact-amount">Amount</label>
+                    </div>
+                  </div>
+
+                <div class="row row-14 row-narrow mt-0">
+                  <div class="col-lg-4">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-first-name" type="text" name="fname" data-constraints="@Required">
+                      <label class="form-label" for="contact-first-name">First Name</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-last-name" type="text" name="lname" data-constraints="@Required">
+                      <label class="form-label" for="contact-last-name">Last Name</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-phone-2" type="text" name="phone" data-constraints="@Numeric">
+                      <label class="form-label" for="contact-phone-2">Phone</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-email" type="email" name="email" data-constraints="@Email @Required">
+                      <label class="form-label" for="contact-email">E-mail</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="form-wrap">
+                      <input class="form-input" required id="contact-address" type="text" name="address" data-constraints="@Required">
+                      <label class="form-label" for="contact-address">Address</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="form-wrap">
+                      <label class="form-label" for="contact-comment">Comment</label>
+                      <textarea class="form-input" id="contact-comment" name="comment" data-constraints="@Required"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <!-- Set up a container element for the button -->
+                      <div id="paypal-button-container"></div>
+
+                      <!-- Include the PayPal JavaScript SDK -->
+                      <script src="https://www.paypal.com/sdk/js?client-id=AcK29cNvZ7dD5zShYcvy0DIbSABOYNdRJK7AR8hGnk0bgLnmqNEvfGPu_b8Ri83WaQmsXPe61YvtP51d&currency=USD"></script>
+
+                      <script>
+                          // Render the PayPal button into #paypal-button-container
+                          paypal.Buttons({
+                              // Set up the transaction
+                              createOrder: function(data, actions) {
+                                  return actions.order.create({
+                                      purchase_units: [{
+                                          amount: {
+                                              value: '50'
+                                          }
+                                      }]
+                                  });
+                              },
+                              // Finalize the transaction
+                              onApprove: function(data, actions) {
+                                  return actions.order.capture().then(function(details) {
+                                      // Show a success message to the buyer
+                                      alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                                      document.getElementById("myFormSubmit").submit();
+                                  });
+                              }
+                          }).render('#paypal-button-container');
+                      </script>
+                  </div>
+                </div>
+
+                
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+  </body>
+{% endblock %}

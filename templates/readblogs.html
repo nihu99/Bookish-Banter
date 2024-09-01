@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<section class="section section-lg bg-default">
+    <div class="container">
+        <div style="margin-top: 40px;">
+            <h3 class="blog-post-title">Blog Title: {{ Blog.title }}</h3>
+        </div>
+
+        <div class="blog-post-content">
+            <p>{{ Blog.content }}</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-xl-5"><img src="{{ Blog.image.url }}" alt="" width="518" height="569" /></div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

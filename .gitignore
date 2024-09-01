@@ -1,0 +1,10 @@
+
+*.pyc
+db.sqlite3
+creds.txt
+features.txt
+env
+.vscode
+.venv
+/BookStore/migrations
+/BookishBanter/migrations

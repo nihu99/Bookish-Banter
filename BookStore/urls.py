@@ -1,0 +1,36 @@
+from django.contrib import admin
+from django.urls import path
+from BookStore import views
+
+urlpatterns = [
+    path('', views.index, name='home'),
+    path('contacts/', views.contact, name='ContactUs'),
+    path('ourteams/', views.ourteam, name='OurTeams'),
+    path('partners/',views.partner, name='Partners'),
+    path('signin/', views.signin, name='Signin'),
+    path('signup/', views.signup, name='Signup'),
+    path('blogs/', views.blogs, name='blogs'),
+    path('shop/', views.shop, name='shop'),
+    path('product/<int:id>', views.product, name='product'),
+    path('cart/', views.cart, name='cart'),
+    path('cartProducts/', views.cartProducts, name='cartProducts'),
+    path('loginCheckout', views.loginCheckout, name='loginCheckout'),
+    path('remove-from-cart', views.remove_from_cart, name='remove_from_cart'),
+    path('cartFinalRemove/', views.cartFinalRemove, name='cartFinalRemove'),
+    path('orders/', views.finalOrder, name='orders'),
+    path('logout/', views.logoutuser, name='userslogout'),
+    path('aboutus/', views.aboutus, name='aboutus'),
+    path('ticketbooking/', views.ticketbooking, name='ticketbooking'),
+    path('booked/', views.booked, name='booked'),
+    path('blogs/', views.blogs, name='blogs'),
+    path('donate/', views.donate, name='donate'),
+    path('readblogs/<int:id>', views.readblogs, name='readblogs'),
+    path('news/', views.news, name='news'),
+    path('readnews/<int:id>', views.readnews, name='readnews'),
+    path('newscategory/<int:id>', views.newscategory, name='newscategory'),
+    path('savecontact', views.savecontact, name='savecontact'),
+    path('subscribeEmail/', views.subscribeEmail, name='subscribeEmail'),
+    path('search/', views.search, name='search'),
+    path('thankyou/<str:str>', views.thankyou, name='thankyou'),
+    path('pie_chart/', views.pie_chart, name='pie_chart'),
+]

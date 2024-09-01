@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="post-classic-caption" style="padding: 100px 0 40px 0;">
+    <div class="container">
+        <div class="row" style="margin: 0 auto; text-align: center; display: block;">
+            <div class="col-lg-6 col-xl-5">
+                <img src="{{ Newss.image.url }}" alt="" />
+            </div>
+        </div>
+        <h3 style="margin-top: 10px;" class="post-classic-title">{{ Newss.newsTitle }}<span style="font-size: 1rem; font-weight: 100;"> - {{ Newss.created }}</span></h3>
+        <div style="margin-top: 10px;" class="blog-post-content">{{ Newss.newsContent }}</div>
+    </div>
+</div>
+
+{% endblock %}

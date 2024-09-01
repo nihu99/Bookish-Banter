@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div id="container" style="text-align: center; width: 55%; margin: 100px auto; padding: auto; display: block;">
+  <canvas id="pie-chart"></canvas>
+  <h2 style="color: #D4A373; cursor: default; margin-top: 10px;">Total Data: {{ sum }}</h2>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+  var config = {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data: {{data | safe}},
+        backgroundColor: [
+          '#F8B195', '#F67280', '#C06C84' , '#6C5B7B', '#255278', '#355C78'
+        ],
+        label: 'Graph6',
+      }],
+      labels: {{labels | safe}}
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            suggestedMin: 500,
+            suggestedMax: 1000
+          }
+        }]
+      }
+    }
+  };
+
+  window.onload = function () {
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+    window.myPie = new Chart(ctx, config);
+  };
+</script>
+
+
+{% endblock %}

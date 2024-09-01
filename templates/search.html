@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+<div class="ecomHeader" style="margin-top: 70px;"></div>
+
+<div class="mainSearchedItems py-md-5">
+
+    <div class="searchedItems">
+        <h3 class="text-center">{{ Title2 }}</h3>
+        {% for i in news %}
+        <div class="contentImgBlog">
+            <div class="imgBlogImg"><img src="{{ i.image.url }}" alt=""></div>
+            <div class="contentBlog">
+                <div class="productTitle blogSearchTitle">Title: {{ i.newsTitle }}</div>
+                <div class="">{{ i.newsContent|truncatechars:150 }}</div>
+                <a href="{% url 'readnews' i.id %}">Continue Reading..</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3 class="text-center producth3" style="margin-bottom: 20px;">
+        {% if empty %}
+            <div style="margin: 100px 0;">
+                Sorry, no results found!
+            </div>
+        {% else %}
+            {{Title3}}
+        {% endif %}
+    </h3>
+
+    <div class="featuredProduct">
+        {% for i in product %}
+        <a href="{% url 'product' i.id %}">
+            <div class="featuredProductSub">
+                <div class="productImg">
+                    <img src="{{ i.productDisp.url }}" alt="">
+                    <div class="productTitle"><b>{{ i.productTitle }}</b></div>
+                    <div class="productPrice">Price: ${{ i.productPrice }}</div>
+                    <div class="cartProductPosition"><i class="fas fa-cart-plus"></i></div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

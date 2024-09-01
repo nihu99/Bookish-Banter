@@ -1,0 +1,147 @@
+{% load static %}
+
+<!-- responsive -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:300,400,500,700,900%7CRoboto:400">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+  <script src="https://use.fontawesome.com/0bc5669de5.js"></script>
+</head>
+
+<div class="preloader">
+  <div class="preloader-body">
+    <div class="cssload-container">
+      <div class="cssload-speeding-wheel"></div>
+    </div>
+    <p>Loading...</p>
+  </div>
+</div>
+
+<div class="page">
+  <!-- Page Header-->
+  <header class="section page-header">
+    <!-- RD Navbar-->
+    <div class="rd-navbar-wrap">
+      <nav style="background: #D4A373;" class="rd-navbar rd-navbar-aside">
+        <div class="rd-navbar-main-outer">
+          <div class="rd-navbar-main">
+            <!-- RD Navbar Panel-->
+            <div class="rd-navbar-panel">
+              <!-- RD Navbar Toggle-->
+              <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand"><a href="{% url 'home' %}"><img class="brand-logo-light"
+                    src="{% static 'images/bookish-banter-logo-cropped.png' %}" alt=""
+                    style="width: 100%; height: auto; max-height: 500px;" /></a>
+              </div>
+              <div class="block-right">
+                <ul class="list-inline nav-list">
+                  <li class="list-inline-item">
+                    <form action="{% url 'search' %}" method="post" autocomplete="off">
+                      {% csrf_token %}
+                      <div class="searchNavForm">
+                        <input type="text" placeholder="Search" name='value' style="width: 200px !important;">
+                        <button type="submit" class="navSearchBtn"><i class="fas fa-search"></i></button>
+                      </div>
+                    </form>
+                  </li>
+                  <!-- <li class="list-inline-item"><a href="{% url 'ticketbooking' %}">Categories</a></li> -->
+                  <!-- <li class="list-inline-item"><a href="{% url 'shop' %}">New Releases</a></li> -->
+                  <!-- <li class="list-inline-item"><a href="{% url 'news' %}">What's New</a></li> -->
+                  <li class="list-inline-item"><a href="{% url 'shop' %}">Shop</a></li>
+
+                  {% if user.is_authenticated %}
+                  <li class="list-inline-item"><a href="{% url 'orders' %}">Orders</a></li>
+                  {% endif %}
+                  {% if request.session.cart %}
+                  <li class="list-inline-item">
+                    <a href="{% url 'cartProducts' %}">Cart</a>
+                    <span class="badge badge-info" style="cursor: default;" aria-readonly="">{{ request.session.cart.keys|length }}</span>
+                  </li>
+                  {% endif %}
+                </ul>
+                <div class="rd-navbar-aside-outer rd-navbar-collapse">
+                  <div class="rd-navbar-aside">
+                    <ul class="list-inline header-soc-list">
+                      {% if user.is_authenticated %}
+                      <li><a class="icon" href="#">Hi, {{ user.username }}!</a></li>
+                      <li><a class="icon" href="{% url 'userslogout' %}">Logout</a></li>
+                      {% else %}
+                      <li><a class="icon" href="{% url 'Signin' %}">Login</a></li>
+                      <li><a class="icon" href="{% url 'Signup' %}">Sign up</a></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rd-navbar-main-element">
+              <div class="rd-navbar-nav-wrap">
+                <!-- RD Navbar Nav-->
+                <ul class="rd-navbar-nav">
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'blogs' %}">Blogs</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'aboutus' %}">About us</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'OurTeams' %}">Our Team</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'Partners' %}">Authors</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'ContactUs' %}">Contacts</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'donate' %}">Donate</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  {% block content %}
+  {% endblock %}
+  <!-- Page Footer-->
+  <footer class="section footer-minimal context-dark">
+    <div class="container wow-outer">
+      <div class="wow fadeIn">
+        <div class="row row-30 row-xl-50">
+          <div class="col-12"><a class="footer-brand" href="/"><img
+                src="{% static 'images/bookish-banter-logo.png' %}" alt=""
+                alt="" width="181" height="50" /></a></div>
+          <div class="col-12">
+            <ul class="footer-minimal-nav">
+              <li><a href="{% url 'aboutus' %}">About Us</a></li>
+              <li><a href="{% url 'news' %}">News</a></li>
+              <li><a href="{% url 'ContactUs' %}">contacts </a></li>
+              <li><a href="{% url 'donate' %}">Donate</a></li>
+            </ul>
+          </div>
+          <div class="col-12">
+            <ul class="social-list">
+              <li><a class="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-facebook" href="#"></a></li>
+              <li><a class="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-instagram" href="#"></a></li>
+              <li><a class="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-twitter" href="#"></a></li>
+              <li><a class="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-youtube-play" href="#"></a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="rights"><span>&copy;&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>Bookish
+            Banter</span><span>.&nbsp;</span><span>All Rights
+            Reserved</span><span>.&nbsp;</span><a href="#">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+  <div class="snackbars" id="form-output-global"></div>
+  <script src="{% static 'js/core.min.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>

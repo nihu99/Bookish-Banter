@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+    <title>NewsCategory</title>
+</head>
+<body>
+    
+        {% for i in category %}
+        <div class="news">
+            <div class="news_head">
+                <div class="news_img">
+                   <img src="{{ i.image.url }}" alt="" />
+                </div>
+            
+                <div class="news_desc">
+                    <div class="news_title">
+                        <p>{{ i.newsTitle }}</p>
+                    </div>
+                    <p style="text-align: left;">{{ i.newsContent|truncatechars:50 }}</p>
+                    <p>{{ i.created }}</p>
+                    <a href="{% url 'readnews' i.id %}" role="button">Continue Reading</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+</body>
+</html>
+
+
+{% endblock %}

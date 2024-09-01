@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% load cart %}
+
+<link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+
+<script>
+    function magnify(imgID, zoom) {
+        var img, glass, w, h, bw;
+        img = document.getElementById(imgID);
+        /*create magnifier glass:*/
+        glass = document.createElement("DIV");
+        glass.setAttribute("id", "img-magnifier-glass");
+        /*insert magnifier glass:*/
+        img.parentElement.insertBefore(glass, img);
+        /*set background properties for the magnifier glass:*/
+        glass.style.backgroundImage = "url('" + img.src + "')";
+        glass.style.backgroundRepeat = "no-repeat";
+        glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+        bw = 3;
+        w = glass.offsetWidth / 2;
+        h = glass.offsetHeight / 2;
+        /*execute a function when someone moves the magnifier glass over the image:*/
+        glass.addEventListener("mousemove", moveMagnifier);
+        img.addEventListener("mousemove", moveMagnifier);
+        /*and also for touch screens:*/
+        glass.addEventListener("touchmove", moveMagnifier);
+        img.addEventListener("touchmove", moveMagnifier);
+
+        function moveMagnifier(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            x = pos.x;
+            y = pos.y;
+            /*prevent the magnifier glass from being positioned outside the image:*/
+            if (x > img.width - (w / zoom)) {
+                x = img.width - (w / zoom);
+            }
+            if (x < w / zoom) {
+                x = w / zoom;
+            }
+            if (y > img.height - (h / zoom)) {
+                y = img.height - (h / zoom);
+            }
+            if (y < h / zoom) {
+                y = h / zoom;
+            }
+            /*set the position of the magnifier glass:*/
+            glass.style.left = (x - w) + "px";
+            glass.style.top = (y - h) + "px";
+            /*display what the magnifier glass "sees":*/
+            glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+        }
+
+        function getCursorPos(e) {
+            var a, x = 0,
+                y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return {
+                x: x,
+                y: y
+            };
+        }
+    }
+
+    function visibleMagnify() {
+        var x = document.getElementById("img-magnifier-glass");
+        x.style.display = "block";
+    }
+
+    function hideMagnify() {
+        var x = document.getElementById("img-magnifier-glass");
+        x.style.display = "none";
+    }
+</script>
+
+<div class="mainProductHead" style="margin-top: 100px;">
+
+    <div class="productDispTitle">
+        <div class="img-magnifier-container" onmouseover="visibleMagnify()" onmouseout="hideMagnify()">
+            <img id="myimage" class="productImgDisp" style="height: auto;" src="{{ Product.productDisp.url }}" alt="">
+        </div>
+        <div class="card-footer row cartForm no-gutters">
+                {% if not Product|is_in_cart:request.session.cart %}
+                <form action="{% url 'cart' %}" method="POST">
+                    {% csrf_token %}
+                    <input hidden type="text" name="product_id" value="{{ Product.id }}">
+                    <button type="submit" class="addToCart">Add to Cart</button>
+                </form>
+                {% else %}
+                    <div class="flexQuantity">
+                        <form action="{% url 'cart' %}" class="" method="POST">
+                            {% csrf_token %}
+                            <input hidden type="text" name="product_id" value="{{ Product.id }}">
+                            <input hidden type="text" name="removeProduct" value="True">
+                            <input type="submit" value=' - ' class="quantityBtn" readonly>
+                        </form>
+                        <div class="text-center col">{{ Product|cart_quantity:request.session.cart }} in cart</div>
+                        <form action="{% url 'cart' %}" class="" method="POST">
+                        {% csrf_token %}
+                            <input hidden type="text" name="product_id" value="{{ Product.id }}">
+                            <input type="submit" value=' + ' class="quantityBtn" readonly>
+                        </form>
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+
+    <div class="productDescPrice">
+        <div class="productPageTitle">{{ Product.productTitle }}</div>
+        <div class="productPagePrice">Price: ${{ Product.productPrice }}</div>
+        <div class="productPageDesc">{{ Product.productDesc|linebreaks }}</div>
+    </div>
+
+</div>
+
+<div class="sizeChart">
+    <img src="{% static 'images/size-chart-hoodie-desktop.svg' %}" alt="">
+</div>
+
+{{ form.as_p }}
+
+<script>
+    magnify("myimage", 2.5);
+</script>
+
+{% endblock %}

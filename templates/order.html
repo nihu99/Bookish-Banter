@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+
+<div class="">
+    <h2 class="marginFix">Your Items:</h2>
+</div>
+
+<table class="border tableSubFlex m-4 mt-5 p-5" style="width: 65%;" cellpadding="2">
+        <tbody>
+            {% if orders %}
+            <tr class="headText">
+                <td><b class="fontSizeInc">S.No.</b></td>
+                <td><b class="fontSizeInc">Title</b></td>
+                <td><b class="fontSizeInc">Display</b></td>
+                <td><b class="fontSizeInc">Ordered on</b></td>
+                <td><b class="fontSizeInc">Delivery Address | Phone</b></td>
+                <td><b class="fontSizeInc">Status</b></td>
+                <td><b class="fontSizeInc">Return Status</b></td>``
+            </tr>
+                {% for i in orders %}
+                <tr class="cartProducts">
+                    <td>{{ forloop.counter }}</td>
+                    <td><div class="productTitleCart" style="text-decoration: none; ">{{ i.product.productTitle }}</div></td>
+                    <td><img class="cartImgProduct" src="{{ i.product.productDisp.url }}" alt=""></td>
+                    <td>{{ i.date }}</td>
+                    <td>{{ i.address }} | {{ i.phone }}</td>
+                    {% if i.completed == False %}
+                    <td>Delivery in Progress &#10134;</td>
+                    {% else %}
+                    <td>Dellivered &#10003;</td>
+                    {% endif %}
+                    {% if i.readAndReturn %}
+                    <td>{{ i.returnDate }}</td>
+                    {% else %}
+                    <td>No Return Date</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% else %}
+                <h2 class="OrderPlease"">Please order something!</h2>
+            {% endif %}
+        </tbody>
+        <!-- <tfoot>
+            <td><hr style="width: 65%; float: right;"></td>
+            <td><hr></td>
+            <td><hr></td>
+            <td><hr></td>
+            <td><hr></td>
+            <td><hr></td>
+            <td class="">
+                <button data-toggle="modal" data-target="#exampleModalCenter" style="text-transform: uppercase; width: 160px" class="addToCart">Check Out</button>
+            </td>
+        </tfoot> -->
+    </table>
+
+{% endblock %}

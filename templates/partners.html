@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<html class="wide wow-animation" lang="en">
+
+<head>
+    <title>Partners</title>
+    <style>
+        .ie-panel {
+            display: none;
+            background: #212121;
+            padding: 10px 0;
+            box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, .3);
+            clear: both;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        html.ie-10 .ie-panel,
+        html.lt-ie-10 .ie-panel {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img
+                src="{% static 'images/insidewild.png' %}" height="42" width="80"
+                alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a>
+    </div>
+    <div class="page">
+
+        <section class="parallax-container" data-parallax-img="https://images.pexels.com/photos/4865513/pexels-photo-4865513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+            <div class="parallax-content breadcrumbs-custom context-dark">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <h2 class="breadcrumbs-custom-title">Bridging Worlds with Authors</h2>
+                            <ul class="breadcrumbs-custom-path">
+                                <li><a href="/">Home</a></li>
+                                <li class="active">Contributers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section section-lg bg-default text-center">
+            <div class="container">
+                <div class="row row-30 row-xl-50">
+                    <div class="col-12">
+                        <h2 class="heading-with-text-bg"><span
+                                class="block-background-text text-decorative-black-20 big">Your Favorites</span></h2>
+                    </div>
+                    {% for i in partner %}
+                    <div class="col-sm-6 col-lg-3">
+                        
+                        <a class="box-sponsor box-sponsor-modern wow-outer" href="{{ i.Partnerlink }}">
+                            <img src="{{ i.Partnerimage.url }}" alt="" width="270" height="101" />
+                        </a></div>
+                        <!-- <a href="{{ i.Partnerlink }}"><div>{{ i.Partnername }}</div></a> -->
+                       
+                    {% endfor %}
+                    <!-- <div class="col-12"><a class="button button-lg button-primary" href="#">become a partner</a></div> -->
+                </div>
+            </div>
+        </section>
+    </div>
+    
+</body>
+</html>
+{% endblock %}

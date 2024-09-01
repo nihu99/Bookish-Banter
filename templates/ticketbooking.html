@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking</title>
+
+<body style="background: transparent;">
+
+    <div class=""></div>
+    <video autoplay muted loop class="videoBG">
+        <source src="{% static 'videos/bg3.mp4' %}" type="video/mp4">
+    </video>
+    <div class="containerr" style="background: transparent;">
+        <form action="{% url 'booked' %}" id="myFormSubmit" method="POST" class="ticketForm" autocomplete="off">
+            {% csrf_token %}
+            <h2 style="color: #fff;">Book Your Ticket</h2>
+            <div class="">
+                <div class="common">
+                    <span>
+                        <label for="id_first_name">First name:</label>
+                        <input type="text" required name="firstName" maxlength="30" id="id_first_name" class="hi">
+                    </span>
+
+                    <span>
+                        <label for="id_last_name">Last name:</label>
+                        <input type="text" required name="lastName" maxlength="150" id="id_last_name" class="hi">
+                    </span>
+                </div>
+            </div>
+            <div class="">
+                <div class="common">
+                    <span>
+                        <label for="id_age">Age:</label>
+                        <input type="number" required name="age" value="18" min="18" required="" class="hi" id="id_age">
+                    </span>
+
+                    <span class="selectTicket">
+                        <label for="id_gender">Gender:</label>
+                        <select name="gender" required id="id_gender" data-select2-id="id_gender" tabindex="0"
+                            class="hi" aria-hidden="false">
+                            <option value="m" data-select2-id="5">Male</option>
+                            <option value="f" data-select2-id="6">Female</option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <div class="">
+                <div class="common">
+                    <span>
+                        <label for="id_phone_number">Phone number:</label>
+                        <input type="number" name="phone_number" maxlength="12" required="" id="id_phone_number"
+                            class="hi">
+                    </span>
+
+                    <span>
+                        <label for="id_country">Country:</label>
+                        <input type="text" name="country" maxlength="20" required="" id="id_country" class="hi">
+                    </span>
+                </div>
+            </div>
+            <div class="">
+                <div class="common">
+                    <span class="selectTicket selectPack">
+                        <label for="id_packs">Select a Pack:</label>
+                        <select name="packs" required id="id_packs" data-select2-id="id_packs" tabindex="-1"
+                            class="select2-hidden-accessible" aria-hidden="true" style="appearance: none;">
+                            <option value="Couple Pack" data-select2-id="4">Couple Pack</option>
+                            <option value="Family Pack" data-select2-id="12">Family Pack</option>
+                            <option value="Custom Pack" data-select2-id="13">Custom Pack</option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <div class="">
+                <div class="dateStyleBooking">
+                    <label for="id_date" style="width: auto; margin-bottom: 10px;">Date:</label>
+                    <input type="date" class="hi" required min="{{ date|date:"Y-m-d" }}" name="date" id="id_date">
+                </div>
+            </div>
+            <div class="bookNowBtn">
+                <div class="submit-btn">
+                    <div style="width: 20% !important;" id="paypal-button-container"></div>
+
+                    <!-- Include the PayPal JavaScript SDK -->
+                    <script
+                        src="https://www.paypal.com/sdk/js?client-id=AcK29cNvZ7dD5zShYcvy0DIbSABOYNdRJK7AR8hGnk0bgLnmqNEvfGPu_b8Ri83WaQmsXPe61YvtP51d&currency=USD">
+                    </script>
+
+                    <script>
+                        // Render the PayPal button into #paypal-button-container
+                        paypal.Buttons({
+                            // Set up the transaction
+                            createOrder: function (data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: '50'
+                                        }
+                                    }]
+                                });
+                            },
+                            // Finalize the transaction
+                            onApprove: function (data, actions) {
+                                return actions.order.capture().then(function (details) {
+                                    // Show a success message to the buyer
+                                    alert('Transaction completed by ' + details.payer.name
+                                        .given_name + '!');
+                                    document.getElementById("myFormSubmit").submit();
+                                });
+                            }
+                        }).render('#paypal-button-container');
+                    </script>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

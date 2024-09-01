@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+  <head>
+    <title>Blog Post</title>
+    
+    <style>
+    .ie-panel{
+      display: none;
+      background: #212121;
+      padding: 10px 0;
+      box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);
+      clear: both;
+      text-align:center;
+      position: relative;
+      z-index: 1;
+      }
+      html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {
+        display: block;
+        }
+        </style>
+  </head>
+  <body>
+    <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+
+    <div class="page">
+      <section class="parallax-container" data-parallax-img="https://images.pexels.com/photos/851213/pexels-photo-851213.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 col-lg-9">
+                <h2 class="breadcrumbs-custom-title">Blog Post</h2>
+                <ul class="breadcrumbs-custom-path">
+                  <li><a href="/">Home</a></li>
+                  <li class="active">Blog Post</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-lg bg-default" style="padding-bottom: 20px;">
+        <div class="container">
+          <h3 class="text-center">Curated posts just for you!</h3>
+          <div class="row">
+            <div class="col-12">
+              <!-- Owl Carousel-->
+              <div class="owl-carousel" data-items="1" data-md-items="2" data-lg-items="3" data-dots="true" data-nav="false" data-stage-padding="15" data-loop="false" data-margin="30" data-mouse-drag="false">
+                {% for i in latest|slice:3 %}
+                <div class="post-classic">
+                  <div class="post-classic-figure"><a href="{% url 'readblogs' i.id %}"><img src="{{ i.image.url }}" alt="" width="370" height="255"/></a></div>
+                  <div class="post-classic-caption">
+                    <h4 class="post-classic-title"><a href="{% url 'readblogs' i.id %}">{{ i.title }}</a></h4>
+                    <ul class="post-classic-meta">
+                      <li>{{ i.created }}</li>
+                      <!-- <li><a class="post-classic-tag" href="#">News</a></li> -->
+                    </ul>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="row" style="margin-top: 0px;">
+        <div class="col-12">
+          <div class="blog-post-share text-lg-right">
+            <ul class="list-inline">
+              <li class="thin-title">Share post</li>
+              <li><a class="icon icon-sm fa-facebook" href="#"></a></li>
+              <li><a class="icon icon-sm fa-instagram" href="#"></a></li>
+              <li><a class="icon icon-sm fa-twitter" href="#"></a></li>
+              <li><a class="icon icon-sm fa-youtube-play" href="#"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <section class="section section-lg bg-default">
+        <div class="container">
+          {% for i in Blog %}
+          <div class="row row-50 justify-content-lg-between">
+            <div class="col-lg-6">
+              <ul class="blog-post-meta">
+                <li><a class="badge" href="#">Event</a></li>
+                <li><span class="icon mdi mdi-clock"></span>{{ i.created }}</li>
+                <li><span class="icon mdi mdi-eye"></span>345 views</li>
+              </ul>
+
+
+              <h3 class="blog-post-title">Blog Title: {{ i.title }}</h3>
+
+              <div class="blog-post-content">
+                <p>{{ i.content|truncatechars:150 }}</p>
+                <a href="{% url 'readblogs' i.id %}" role="button" >Continue Reading</a>
+              </div>  
+            </div>
+
+            <div class="col-lg-6 col-xl-5"><img src="{{ i.image.url }}" alt="" width="518" height="569"/>
+            </div>
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </section>
+    </div>  
+  </body>
+
+{% endblock %}

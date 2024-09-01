@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/ecom.css' %}">
+
+<div class="bannerEcomBG">
+    <img src="{% static 'images/bookish-banter-logo-cropped.png' %}" alt="" width="2000" height="702" />
+</div>
+
+<div class="ecomHeader">
+    <h2 style="color: #D4A373;">Featured Products</h2>
+    <div class="featuredProduct">
+        {% for i in Featured %}
+        <a href="{% url 'product' i.featuredProduct.id %}"><div class="featuredProductSub">
+            <div class="productImg">
+                <img src="{{ i.featuredProduct.productDisp.url }}" alt="">
+                <div class="productTitle"><b>{{ i.featuredProduct.productTitle }}</b></div>
+                <div class="productPrice">Price: ${{ i.featuredProduct.productPrice }}</div>
+                <div class="cartProductPosition"><i class="fas fa-cart-plus"></i></div>
+            </div>
+        </div></a>
+        {% endfor %}
+    </div>
+
+    {% for i in category %}
+    <h2 style="color: #D4A373;">{{ i.categoryName }}:</h2>
+        <div class="featuredProduct">
+        {% for j in i.cat.all %}
+            <a href="{% url 'product' j.id %}"><div class="featuredProductSub">
+                <div class="productImg">
+                    <img src="{{ j.productDisp.url }}" alt="">
+                    
+                    <div class="productTitle"><b>{{ j.productTitle }}</b></div>
+                    <div class="productPrice">Price: ${{ j.productPrice }}</div>
+                    <div class="cartProductPosition"><i class="fas fa-cart-plus"></i></div>
+                </div>
+            </div></a>
+        {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
